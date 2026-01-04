@@ -30,6 +30,9 @@
 
 /public/assets
 
+# Ignore dev scratch files
+/dev/
+
 # Ignore key files for decrypting credentials and more.
 /config/*.key
 
