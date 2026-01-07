@@ -5,4 +5,7 @@ class ApplicationController < ActionController::Base
 
   # Changes to the importmap will invalidate the etag for HTML responses
   stale_when_importmap_changes
+
+  # Use GOV.UK Design System form builder by default
+  default_form_builder GOVUKDesignSystemFormBuilder::FormBuilder
 end
