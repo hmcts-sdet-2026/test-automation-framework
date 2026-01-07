@@ -18,12 +18,34 @@
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/icon.png">
 
+    <%# GOV.UK Frontend CSS - version 5.6.0 (stable release from Dec 2024) %>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/govuk-frontend@5.6.0/dist/govuk/govuk-frontend.min.css">
+
     <%# Includes all stylesheet files in app/assets/stylesheets %>
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
+    <script type="module">
+      import { initAll } from 'https://cdn.jsdelivr.net/npm/govuk-frontend@5.6.0/dist/govuk/govuk-frontend.min.js'
+      document.addEventListener('turbo:load', () => { initAll() })
+      initAll()
+    </script>
   </head>
 
-  <body>
+  <body class="govuk-template__body">
+    <script>document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled') + ' govuk-frontend-supported';</script>
+    <%= govuk_header(homepage_url: root_path, service_name: "HMCTS Login Test", service_url: root_path) do |header|
+      header.with_navigation_item(text: "About", href: "#", active: false)
+      header.with_navigation_item(text: "Sign in", href: new_session_path, active: current_page?(new_session_path))
+    end %>
+
     <%= yield %>
+    <footer>
+      <% meta_items = [
+        { text: "Cookies", href: "#" },
+        { text: "Privacy", href: "#" },
+        { text: "Terms and conditions", href: "#" }
+      ] %>
+      <%= govuk_footer(meta_items_title: "Helpful links", meta_items: meta_items) %>
+    </footer>
   </body>
 </html>

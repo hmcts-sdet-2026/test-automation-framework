@@ -1,11 +1,58 @@
-<%= tag.div(flash[:alert], style: "color:red") if flash[:alert] %>
-<%= tag.div(flash[:notice], style: "color:green") if flash[:notice] %>
+<div class="govuk-width-container">
+  <main class="govuk-main-wrapper">
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
+        <h1 class="govuk-heading-xl">Sign in</h1>
 
-<%= form_with url: session_path do |form| %>
-  <%= form.email_field :email_address, required: true, autofocus: true, autocomplete: "username", placeholder: "Enter your email address", value: params[:email_address] %><br>
-  <%= form.password_field :password, required: true, autocomplete: "current-password", placeholder: "Enter your password", maxlength: 72 %><br>
-  <%= form.submit "Sign in" %>
-<% end %>
-<br>
+        <% if flash[:alert] && @errors.any? %>
+          <div class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" data-module="govuk-error-summary">
+            <h2 class="govuk-error-summary__title" id="error-summary-title">
+              There is a problem
+            </h2>
+            <div class="govuk-error-summary__body">
+              <ul class="govuk-list govuk-error-summary__list">
+                <% if @errors[:email_address] %>
+                  <li>
+                    <a href="#email_address"><%= @errors[:email_address] %></a>
+                  </li>
+                <% end %>
+                <% if @errors[:password] %>
+                  <li>
+                    <a href="#password"><%= @errors[:password] %></a>
+                  </li>
+                <% end %>
+              </ul>
+            </div>
+          </div>
+        <% elsif flash[:alert] %>
+          <div class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" data-module="govuk-error-summary">
+            <h2 class="govuk-error-summary__title" id="error-summary-title">
+              There is a problem
+            </h2>
+            <div class="govuk-error-summary__body">
+              <p><%= flash[:alert] %></p>
+            </div>
+          </div>
+        <% end %>
 
-<%= link_to "Forgot password?", new_password_path %>
+        <%= form_with url: session_path do |form| %>
+          <%= form.govuk_email_field :email_address,
+            label: { text: 'Email address' },
+            hint: { text: 'For example, name@example.com' },
+            error_message: @errors[:email_address],
+            value: params[:email_address] %>
+
+          <%= form.govuk_password_field :password,
+            label: { text: 'Password' },
+            error_message: @errors[:password] %>
+
+          <%= form.govuk_submit 'Sign in' %>
+        <% end %>
+
+        <p class="govuk-body">
+          <%= govuk_link_to "Forgot password?", new_password_path %>
+        </p>
+      </div>
+    </div>
+  </main>
+</div>

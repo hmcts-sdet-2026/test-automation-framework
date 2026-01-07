@@ -6,4 +6,10 @@ class User < ApplicationRecord
 
   # Automatically strips whitespace and converts email to lowercase before saving
   normalizes :email_address, with: ->(e) { e.strip.downcase }
+
+  # Model-level validations for data integrity
+  validates :email_address, presence: true,
+    format: { with: URI::MailTo::EMAIL_REGEXP, message: "must be a valid email address" },
+    uniqueness: { case_sensitive: false }
+  validates :password, length: { minimum: 3 }, if: -> { password.present? }
 end
