@@ -9,12 +9,14 @@ class SessionsController < ApplicationController
   def create
     @errors = {}
 
+    permitted = params.permit(:email_address, :password)
+
     # Validate required fields
-    if error = validate_email(params[:email_address])
+    if error = validate_email(permitted[:email_address])
       @errors[:email_address] = error
     end
 
-    if params[:password].blank?
+    if permitted[:password].blank?
       @errors[:password] = "Enter a password"
     end
 
@@ -26,7 +28,7 @@ class SessionsController < ApplicationController
     end
 
     # Attempt authentication
-    if user = User.authenticate_by(params.permit(:email_address, :password))
+    if user = User.authenticate_by(permitted)
       start_new_session_for user
       redirect_to after_authentication_url
     else

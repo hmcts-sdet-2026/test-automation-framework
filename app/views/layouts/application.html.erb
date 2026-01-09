@@ -33,10 +33,18 @@
 
   <body class="govuk-template__body">
     <script>document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled') + ' govuk-frontend-supported';</script>
-    <%= govuk_header(homepage_url: root_path, service_name: "HMCTS Login Test", service_url: root_path) do |header|
-      header.with_navigation_item(text: "About", href: "#", active: false)
-      header.with_navigation_item(text: "Sign in", href: new_session_path, active: current_page?(new_session_path))
-    end %>
+    <% if authenticated? %>
+      <%= govuk_header(homepage_url: root_path, service_name: "HMCTS Login Test", service_url: root_path) do |header|
+        header.with_navigation_item(text: "About", href: "#", active: false)
+        header.with_navigation_item(text: Current.user.email_address, href: "#")
+        header.with_navigation_item(text: "Sign out", href: logout_path, active: false)
+      end %>
+    <% else %>
+      <%= govuk_header(homepage_url: root_path, service_name: "HMCTS Login Test", service_url: root_path) do |header|
+        header.with_navigation_item(text: "About", href: "#", active: false)
+        header.with_navigation_item(text: "Sign in", href: new_session_path, active: current_page?(new_session_path))
+      end %>
+    <% end %>
 
     <%= yield %>
     <footer>
