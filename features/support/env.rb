@@ -51,3 +51,43 @@ end
 # The :transaction strategy is faster, but might give you threading problems.
 # See https://github.com/cucumber/cucumber-rails/blob/master/features/choose_javascript_database_strategy.feature
 Cucumber::Rails::Database.javascript_strategy = :truncation
+
+# Configure Capybara to use Selenium for JavaScript tests
+Capybara.default_driver = :rack_test
+
+# Register Selenium Chrome headless driver (Selenium Manager handles driver version)
+Capybara.register_driver :selenium_chrome_headless do |app|
+  options = Selenium::WebDriver::Chrome::Options.new
+  options.add_argument('--headless=new')
+  options.add_argument('--disable-gpu')
+  options.add_argument('--no-sandbox')
+  options.add_argument('--disable-dev-shm-usage')
+
+  Capybara::Selenium::Driver.new(app, browser: :chrome, options: options)
+end
+
+# Register Selenium Chrome headed driver (for debugging)
+Capybara.register_driver :selenium_chrome do |app|
+  options = Selenium::WebDriver::Chrome::Options.new
+  options.add_argument('--disable-gpu')
+  options.add_argument('--no-sandbox')
+  options.add_argument('--disable-dev-shm-usage')
+
+  Capybara::Selenium::Driver.new(app, browser: :chrome, options: options)
+end
+
+Capybara.javascript_driver = :selenium_chrome_headless
+
+# Load all Page Object Models
+Dir[Rails.root.join('spec/support/pages/**/*.rb')].each { |f| require f }
+
+# Skip scenarios tagged with @skip
+Before('@skip') do
+  skip_this_scenario
+end
+
+# Clear cache between scenarios to prevent state leakage
+# This is important when using :memory_store instead of :null_store
+Before do
+  Rails.cache.clear
+end

@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   resource :session
   get "logout" => "sessions#destroy", as: :logout
   resources :passwords, param: :token
-  
+
   # Home page (requires authentication)
   get "home" => "home#index", as: :home
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html

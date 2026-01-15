@@ -1,3 +1,5 @@
+# Cucumber profiles configuration
+# Note: This file uses ERB syntax (<% %>) which Cucumber processes before parsing YAML
 <%
 rerun = File.file?('rerun.txt') ? IO.read('rerun.txt') : ""
 rerun = rerun.strip.gsub /\s/, ' '
@@ -6,3 +8,4 @@ std_opts = "--format #{ENV['CUCUMBER_FORMAT'] || 'pretty'} --strict --tags 'not 
 %>
 default: <%= std_opts %> features
 rerun: <%= rerun_opts %> --format rerun --out rerun.txt --strict --tags 'not @wip'
+debug: --format pretty features CAPYBARA_DRIVER=selenium_chrome
