@@ -75,6 +75,10 @@ group :test do
 
   # Database cleanup strategies for test isolation [https://github.com/DatabaseCleaner/database_cleaner]
   gem "database_cleaner-active_record", "~> 2.2"
+
+  # Accessibility testing with axe-core [https://github.com/dequelabs/axe-core-gems]
+  gem "axe-core-rspec", "~> 4.10"
+  gem "axe-core-capybara", "~> 4.10"
 end
 
 group :development do
