@@ -276,7 +276,7 @@ jobs:
             </div>
 
             <p style="margin-top: 40px; text-align: center; color: #505a5f;">
-              <a href="../">← Back to all test runs</a>
+              <a href="../test-reports-index.html">← Back to all test runs</a>
             </p>
           </body>
           </html>
