@@ -29,11 +29,11 @@ The job specification mentions Java, Spring Framework, and Angular/React. I init
 
 **What this demonstrates**:
 
-✅ **Transferable testing skills**: Page Objects, BDD, multi-layer testing, and CI/CD principles apply across any tech stack
-✅ **Modern architecture understanding**: Rails 8 authentication mirrors Spring Security patterns (session management, CSRF protection, rate limiting)
-✅ **Production-grade focus**: Testing real authentication with security features, not toy examples
-✅ **Pragmatic decision-making**: Maximized assessment value by removing blockers
-✅ **Domain exploration**: Opportunity to test GOV.UK Design System components (forms, error summaries, accessibility patterns) which are new to me and directly relevant to HMCTS digital services. At the DVLA the services I tested are all internal.
+- **Transferable testing skills**: Page Objects, BDD, multi-layer testing, and CI/CD principles apply across any tech stack
+- **Modern architecture understanding**: Rails 8 authentication mirrors Spring Security patterns (session management, CSRF protection, rate limiting)
+- **Production-grade focus**: Testing real authentication with security features, not toy examples
+- **Pragmatic decision-making**: Maximized assessment value by removing blockers
+- **Domain exploration**: Opportunity to test GOV.UK Design System components (forms, error summaries, accessibility patterns) which are new to me and directly relevant to HMCTS digital services. At the DVLA the services I tested are all internal.
 
 **Direct Java/Spring equivalents**:
 - **Page Object Model** → Same pattern with Selenium Java
@@ -52,15 +52,15 @@ I'm confident this framework demonstrates the senior-level testing expertise you
 
 I chose to test Rails 8's built-in authentication (released December 2024) to provide realistic, production-grade test scenarios including:
 
-- ✅ Security features (rate limiting, CSRF protection, secure sessions)
-- ✅ Form validation and error handling
-- ✅ Session persistence across requests
-- ✅ GOV.UK Design System integration (domain-relevant for HMCTS)
-- ✅ Accessibility compliance (WCAG 2.1 AA required for UK government services)
+- Security features (rate limiting, CSRF protection, secure sessions)
+- Form validation and error handling
+- Session persistence across requests
+- GOV.UK Design System integration (domain-relevant for HMCTS)
+- Accessibility compliance (WCAG 2.1 AA required for UK government services)
 
 This provides more comprehensive testing challenges than a basic HTML form. Also, this is new to me as previously I've used third party authentication libraries with Rails.
 
-## 🛠 Technology Stack
+## Technology Stack
 
 | Layer                  | Technology                              | Purpose                        |
 | ---------------------- | --------------------------------------- | ------------------------------ |
@@ -210,11 +210,11 @@ https://hmcts-sdet-2026.github.io/test-automation-framework/test-reports/<run-nu
 ```
 
 **Features:**
-- ✅ Persistent report history (30 days in GitHub Actions Artifacts)
-- ✅ Browsable index page listing all test runs
-- ✅ Direct links to Cucumber HTML, RSpec HTML, and Accessibility reports
-- ✅ Commit SHA and timestamp for each run
-- ✅ Publicly accessible for sharing with stakeholders
+- Persistent report history (30 days in GitHub Actions Artifacts)
+- Browsable index page listing all test runs
+- Direct links to Cucumber HTML, RSpec HTML, and Accessibility reports
+- Commit SHA and timestamp for each run
+- Publicly accessible for sharing with stakeholders
 
 ## Test Coverage
 
@@ -236,32 +236,32 @@ https://hmcts-sdet-2026.github.io/test-automation-framework/test-reports/<run-nu
 
 ### What's Tested
 
-#### ✅ Positive Scenarios
+#### Positive Scenarios
 - Successful login with valid credentials
 - Session creation and cookie management
 - Homepage access after authentication
 - Logout functionality
 
-#### ✅ Negative Scenarios
+#### Negative Scenarios
 - Invalid email format validation
 - Empty field validation
 - Wrong password handling
 - Non-existent user handling
 - Generic error messages (prevents email enumeration)
 
-#### ✅ Security Features
+#### Security Features
 - Rate limiting (10 attempts per 3 minutes)
 - CSRF protection enabled
 - Session cookie attributes (HttpOnly, Secure, SameSite)
 - Email enumeration prevention
 
-#### ✅ Accessibility
+#### Accessibility
 - WCAG 2.1 AA compliance for login page
 - WCAG 2.1 AA compliance for authenticated homepage
 - GOV.UK error summary accessibility
 - Form validation error accessibility
 
-#### ✅ GOV.UK Design System
+#### GOV.UK Design System
 - Form components rendering
 - Error summary pattern
 - Header and footer components
@@ -273,7 +273,7 @@ https://hmcts-sdet-2026.github.io/test-automation-framework/test-reports/<run-nu
 - **Pass Rate**: 100%
 - **Code Coverage**: Focus on critical authentication paths
 
-## 🏗 Design Decisions
+## Design Decisions
 
 ### 1. Page Object Model (POM)
 
@@ -501,7 +501,7 @@ Given additional time, I would implement:
   - **Case sensitivity**: Email address normalization (User@Example.com vs user@example.com)
 - **Production consideration**: For custom business logic models, would implement RSpec model specs testing validations, associations, callbacks, and domain-specific rules. Not applicable here since User/Session models leverage Rails 8 authentication generators with minimal custom logic.
 
-## 📚 Resources & References
+## Resources & References
 
 - [Rails 8 Authentication Guide](https://guides.rubyonrails.org/security.html#authentication)
 - [GOV.UK Design System](https://design-system.service.gov.uk/)
@@ -509,7 +509,7 @@ Given additional time, I would implement:
 - [Page Object Model Pattern](https://martinfowler.com/bliki/PageObject.html)
 - [Cucumber Best Practices](https://cucumber.io/docs/bdd/)
 
-## 🤝 Interview Discussion Points
+## Interview Discussion Points
 
 ### Technical Decisions
 - Why multi-layer testing vs single approach?
