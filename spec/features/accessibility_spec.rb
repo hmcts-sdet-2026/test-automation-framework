@@ -2,7 +2,7 @@ require 'rails_helper'
 require 'axe-rspec'
 
 RSpec.describe "Accessibility", type: :feature, js: true do
-  let(:user) { User.create!(email_address: "test@test.com", password: "password123") }
+  let(:user) { User.find_or_create_by!(email_address: "test@test.com") { |u| u.password = "password123" } }
 
   describe "Login page" do
     it "meets WCAG 2.1 AA standards" do

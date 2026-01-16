@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe "Sessions", type: :request do
-  let(:user) { User.create!(email_address: "test@test.com", password: "password123") }
+  let(:user) { User.find_or_create_by!(email_address: "test@test.com") { |u| u.password = "password123" } }
 
   # Clear rate limit cache between tests
   before do
