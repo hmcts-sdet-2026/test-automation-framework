@@ -63,7 +63,7 @@ group :development, :test do
   gem "rspec-rails", "~> 7.1"
 
   # Cucumber BDD framework for Rails [https://github.com/cucumber/cucumber-rails]
-  gem "cucumber-rails", "~> 3.1", require: false
+  gem "cucumber-rails", "~> 4.0", require: false
 end
 
 group :test do
