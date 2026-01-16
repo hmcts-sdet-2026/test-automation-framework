@@ -44,6 +44,8 @@ The job specification mentions Java, Spring Framework, and Angular/React. I init
 
 I'm confident this framework demonstrates the senior-level testing expertise you're seeking, with skills that translate directly to your Java/Spring/Angular stack.
 
+**Learning motivation**: While I've delivered this assessment using Rails (where I have strong expertise), I'm genuinely keen to transition into Java/Spring Boot and React testing. This role excites me because it offers the opportunity to apply my test automation skills to your production Java stack. I'm eager to learn your specific frameworks, tooling, and architectural patterns. The testing principles I've demonstrated here—Page Objects, BDD, multi-layer testing, accessibility—are language-agnostic, and I'm motivated to master how HMCTS implements these patterns in Java/Spring/React.
+
 **Additional motivation**: I wanted to explore the GOV.UK Design System (forms, components, accessibility patterns) which I hadn't used before. Since HMCTS uses this in production, it provided domain-relevant learning while building realistic test scenarios. The experience of testing government-standard components adds direct value for this role.
 
 ### Why Rails 8 Authentication?
