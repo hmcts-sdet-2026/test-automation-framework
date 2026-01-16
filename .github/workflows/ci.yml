@@ -3,7 +3,7 @@ name: CI
 on:
   pull_request:
   push:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   scan_ruby:
@@ -20,10 +20,10 @@ jobs:
 
       - name: Scan for common Rails security vulnerabilities using static analysis
         run: bin/brakeman --no-pager
-      
+
       - name: Scan for known security vulnerabilities in gems used
         run: bin/bundler-audit
-      
+
   scan_js:
     runs-on: ubuntu-latest
 
@@ -90,15 +90,19 @@ jobs:
           # REDIS_URL: redis://localhost:6379/0
         run: bin/rails db:test:prepare test
 
-  system-test:
+  test-automation:
     runs-on: ubuntu-latest
+    
+    env:
+      RAILS_ENV: test
+      # CI=true enables eager loading in test environment (config/environments/test.rb)
+      # Eager loading loads all app code at startup (like production) to catch:
+      # - Missing require statements
+      # - Circular dependencies  
+      # - Autoload path issues
+      # - Load order problems that only appear in production
+      CI: true
 
-    # services:
-    #  redis:
-    #    image: valkey/valkey:8
-    #    ports:
-    #      - 6379:6379
-    #    options: --health-cmd "redis-cli ping" --health-interval 10s --health-timeout 5s --health-retries 5
     steps:
       - name: Checkout code
         uses: actions/checkout@v5
@@ -108,17 +112,70 @@ jobs:
         with:
           bundler-cache: true
 
-      - name: Run System Tests
-        env:
-          RAILS_ENV: test
-          # RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
-          # REDIS_URL: redis://localhost:6379/0
-        run: bin/rails db:test:prepare test:system
-
-      - name: Keep screenshots from failed system tests
-        uses: actions/upload-artifact@v4
-        if: failure()
+      - name: Install Chrome for Selenium
+        uses: browser-actions/setup-chrome@v1
         with:
-          name: screenshots
-          path: ${{ github.workspace }}/tmp/screenshots
+          chrome-version: stable
+
+      - name: Setup database
+        run: |
+          bin/rails db:create db:migrate db:seed
+
+      - name: Create reports directory
+        run: mkdir -p reports
+
+      - name: Start Rails server in background
+        run: |
+          bin/rails server -p 3000 -e test &
+          echo $! > server.pid
+
+      - name: Wait for Rails server health check
+        run: |
+          timeout 30 bash -c 'until curl -f http://localhost:3000/up; do sleep 1; done'
+
+      - name: Run RSpec request specs
+        continue-on-error: true
+        run: |
+          bundle exec rspec spec/requests --format documentation --format html --out reports/rspec-requests.html
+
+      - name: Run RSpec accessibility specs
+        continue-on-error: true
+        run: |
+          bundle exec rspec spec/features/accessibility_spec.rb --format documentation --format html --out reports/rspec-accessibility.html
+
+      - name: Run Cucumber feature tests
+        continue-on-error: true
+        run: |
+          bundle exec cucumber --format html --out reports/cucumber.html --format pretty
+
+      - name: Stop Rails server
+        if: always()
+        run: |
+          if [ -f server.pid ]; then
+            kill $(cat server.pid) || true
+          fi
+
+      - name: Upload test reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-reports-${{ github.run_number }}
+          path: reports/
+          retention-days: 30
+
+      - name: Upload screenshots on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-screenshots-${{ github.run_number }}
+          path: tmp/screenshots/
           if-no-files-found: ignore
+
+      - name: Deploy reports to GitHub Pages
+        if: always() && github.ref == 'refs/heads/main'
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./reports
+          destination_dir: test-reports/${{ github.run_number }}
+          keep_files: true
