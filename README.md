@@ -488,6 +488,17 @@ Given additional time, I would implement:
 ### 9. Test suite extension
 - **Additional pages**: For existing functionality - Password reset page
 
+### 10. Model Unit Tests & Validation Testing
+- **Status**: Not implemented in this assessment
+- **Rationale**: This exercise tests **Rails 8's built-in authentication system**, not custom-built models. Model unit tests would essentially test Rails framework code rather than demonstrating SDET expertise. Focus was on **testing the application layer** (authentication flows, security, UX) rather than Rails development validation work.
+- **SDET-relevant model testing** (if implemented for custom logic):
+  - **Email validation edge cases**: SQL injection attempts, extremely long emails (255+ chars), unicode characters, multiple @ symbols
+  - **Password edge cases**: Minimum/maximum length boundaries, empty/nil values, special character handling
+  - **Session boundary conditions**: Expired sessions, concurrent sessions, session token length/format validation
+  - **Database constraints**: Email uniqueness enforcement at DB level, not just application layer
+  - **Case sensitivity**: Email address normalization (User@Example.com vs user@example.com)
+- **Production consideration**: For custom business logic models, would implement RSpec model specs testing validations, associations, callbacks, and domain-specific rules. Not applicable here since User/Session models leverage Rails 8 authentication generators with minimal custom logic.
+
 ## 📚 Resources & References
 
 - [Rails 8 Authentication Guide](https://guides.rubyonrails.org/security.html#authentication)
