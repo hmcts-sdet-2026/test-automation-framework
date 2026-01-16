@@ -60,7 +60,7 @@ group :development, :test do
   gem "rubocop-rails-omakase", require: false
 
   # RSpec testing framework for Rails [https://github.com/rspec/rspec-rails]
-  gem "rspec-rails", "~> 7.1"
+  gem "rspec-rails", "~> 8.0"
 
   # Cucumber BDD framework for Rails [https://github.com/cucumber/cucumber-rails]
   gem "cucumber-rails", "~> 4.0", require: false
