@@ -91,3 +91,17 @@ end
 Before do
   Rails.cache.clear
 end
+
+# Capture screenshots on failure for Selenium tests
+After do |scenario|
+  if scenario.failed? && Capybara.current_driver != :rack_test
+    filename = "failure-#{scenario.name.parameterize}-#{Time.now.to_i}.png"
+    filepath = Rails.root.join('tmp', 'screenshots', filename)
+    FileUtils.mkdir_p(File.dirname(filepath))
+    page.save_screenshot(filepath)
+    puts "Screenshot saved: #{filepath}"
+
+    # Optionally embed in Cucumber HTML report
+    embed(filepath.to_s, 'image/png', 'Screenshot')
+  end
+end

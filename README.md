@@ -33,6 +33,7 @@ The job specification mentions Java, Spring Framework, and Angular/React. I init
 ✅ **Modern architecture understanding**: Rails 8 authentication mirrors Spring Security patterns (session management, CSRF protection, rate limiting)
 ✅ **Production-grade focus**: Testing real authentication with security features, not toy examples
 ✅ **Pragmatic decision-making**: Maximized assessment value by removing blockers
+✅ **Domain exploration**: Opportunity to test GOV.UK Design System components (forms, error summaries, accessibility patterns) which are new to me and directly relevant to HMCTS digital services. At the DVLA the services I tested are all internal.
 
 **Direct Java/Spring equivalents**:
 - **Page Object Model** → Same pattern with Selenium Java
@@ -42,6 +43,8 @@ The job specification mentions Java, Spring Framework, and Angular/React. I init
 - **GitHub Actions CI** → Framework-agnostic YAML configuration
 
 I'm confident this framework demonstrates the senior-level testing expertise you're seeking, with skills that translate directly to your Java/Spring/Angular stack.
+
+**Additional motivation**: I wanted to explore the GOV.UK Design System (forms, components, accessibility patterns) which I hadn't used before. Since HMCTS uses this in production, it provided domain-relevant learning while building realistic test scenarios. The experience of testing government-standard components adds direct value for this role.
 
 ### Why Rails 8 Authentication?
 
@@ -367,6 +370,19 @@ Located at `.github/workflows/ci.yml`
    - HTML test reports uploaded as artifacts (30-day retention)
    - GitHub Pages deployment (on main branch)
    - Screenshots uploaded on test failure
+
+### Screenshot Capture on Failure
+
+Automatic screenshot capture is configured for debugging test failures:
+
+- **Cucumber scenarios**: Screenshots embedded in HTML reports + saved to `tmp/screenshots/failure-{scenario-name}-{timestamp}.png`
+- **RSpec feature specs**: Screenshots saved to `tmp/screenshots/failure-{filename}-{line}-{timestamp}.png`
+- **CI pipeline**: Uploads all screenshots as GitHub Actions artifacts for team investigation
+- **Only for browser tests**: Captures only when Selenium driver is active (`@javascript` tagged tests)
+
+**Implementation**: After hooks in [features/support/env.rb](features/support/env.rb) and [spec/rails_helper.rb](spec/rails_helper.rb) detect failures and call `page.save_screenshot`.
+
+This aids debugging race conditions, layout issues, and JavaScript errors without requiring local reproduction.
 
 ### Health Check Pattern
 

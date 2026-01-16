@@ -41,6 +41,20 @@ rescue ActiveRecord::PendingMigrationError => e
   abort e.to_s.strip
 end
 RSpec.configure do |config|
+  # Capture screenshots on failure for Capybara feature specs
+  config.after(:each, type: :feature) do |example|
+    if example.exception && Capybara.current_driver != :rack_test
+      meta = example.metadata
+      filename = File.basename(meta[:file_path])
+      line_number = meta[:line_number]
+      screenshot_name = "failure-#{filename}-#{line_number}-#{Time.now.to_i}.png"
+      screenshot_path = Rails.root.join('tmp', 'screenshots', screenshot_name)
+      FileUtils.mkdir_p(File.dirname(screenshot_path))
+      page.save_screenshot(screenshot_path)
+      puts "Screenshot saved: #{screenshot_path}"
+    end
+  end
+
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_paths = [
     Rails.root.join('spec/fixtures')
