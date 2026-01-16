@@ -10,6 +10,7 @@
 - [Technology Stack](#technology-stack)
 - [Quick Start](#quick-start)
 - [Running Tests](#running-tests)
+- [Viewing Test Reports](#viewing-test-reports)
 - [Test Coverage](#test-coverage)
 - [Design Decisions](#design-decisions)
 - [CI/CD Pipeline](#cicd-pipeline)
@@ -181,6 +182,34 @@ bundle exec cucumber --format html --out reports/cucumber.html
 # Open reports
 open reports/*.html
 ```
+
+## Viewing Test Reports
+
+### GitHub Pages (CI Reports)
+
+All test reports from CI runs are automatically published to GitHub Pages:
+
+**📊 Latest Reports:**
+```
+https://hmcts-sdet-2026.github.io/test-automation-framework/test-reports-index.html
+```
+
+**Individual Report Types:**
+- **Cucumber BDD Tests**: Feature-level acceptance tests with scenario results
+- **RSpec Request Specs**: Controller/API integration test results
+- **Accessibility Tests**: WCAG 2.1 AA compliance report with axe-core
+
+Each CI run on the `main` branch generates a new report set accessible at:
+```
+https://hmcts-sdet-2026.github.io/test-automation-framework/test-reports/<run-number>/index.html
+```
+
+**Features:**
+- ✅ Persistent report history (30 days in GitHub Actions Artifacts)
+- ✅ Browsable index page listing all test runs
+- ✅ Direct links to Cucumber HTML, RSpec HTML, and Accessibility reports
+- ✅ Commit SHA and timestamp for each run
+- ✅ Publicly accessible for sharing with stakeholders
 
 ## Test Coverage
 
