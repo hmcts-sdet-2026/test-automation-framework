@@ -71,7 +71,7 @@ group :test do
   gem "capybara", "~> 3.40"
 
   # WebDriver for browser automation [https://github.com/SeleniumHQ/selenium]
-  gem "selenium-webdriver", "~> 4.27"
+  gem "selenium-webdriver", "~> 4.40"
 
   # Database cleanup strategies for test isolation [https://github.com/DatabaseCleaner/database_cleaner]
   gem "database_cleaner-active_record", "~> 2.2"
